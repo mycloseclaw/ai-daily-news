@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Daily News - 每日 AI 资讯</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🤖 AI Daily News</h1>
+            <p class="subtitle">每日 AI 资讯聚合</p>
+            <p class="last-update">最后更新: <span id="lastUpdate">加载中...</span></p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="newsGrid" class="news-grid">
+            <!-- 新闻卡片将通过 JavaScript 动态加载 -->
+            <div class="loading">正在加载资讯...</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>由 <a href="https://github.com/mycloseclaw" target="_blank">灰原</a> 自动维护 | 
+            <a href="https://github.com/mycloseclaw/ai-daily-news" target="_blank">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

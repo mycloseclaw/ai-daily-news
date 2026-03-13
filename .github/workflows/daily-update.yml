@@ -1,0 +1,40 @@
+name: Daily AI News Update
+
+on:
+  # 每天早上 6 点（北京时间下午2点）自动运行
+  schedule:
+    - cron: '0 6 * * *'
+  # 也可以手动触发
+  workflow_dispatch:
+  # 当 news.json 有更改时触发
+  push:
+    branches:
+      - main
+    paths:
+      - 'fetch_news.py'
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          
+      - name: Fetch latest news
+        run: python fetch_news.py
+        
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 自动更新 AI 资讯 $(date +'%Y-%m-%d')"
+          file_pattern: "news.json"

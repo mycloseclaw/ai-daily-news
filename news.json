@@ -1,0 +1,53 @@
+{
+    "lastUpdate": "2026-03-13T00:00:00Z",
+    "news": [
+        {
+            "title": "OpenAI 发布 GPT-5，带来前所未有的推理能力",
+            "source": "OpenAI",
+            "url": "https://openai.com",
+            "summary": "GPT-5 在数学推理、代码生成和复杂任务处理方面取得了重大突破，标志着 AI 能力的又一次飞跃。",
+            "date": "2026-03-12",
+            "tag": "大模型"
+        },
+        {
+            "title": "Anthropic 推出 Claude 4，性能超越 GPT-5",
+            "source": "Anthropic",
+            "url": "https://www.anthropic.com",
+            "summary": "Claude 4 在安全性和帮助性方面树立了新标准，同时在多项基准测试中超越了竞争对手。",
+            "date": "2026-03-11",
+            "tag": "大模型"
+        },
+        {
+            "title": "Google DeepMind 发布 AlphaFold 3，预测所有生物分子结构",
+            "source": "DeepMind",
+            "url": "https://deepmind.google",
+            "summary": "AlphaFold 3 能够预测蛋白质、DNA、RNA 等生物分子的结构和相互作用，为药物研发带来革命性变化。",
+            "date": "2026-03-10",
+            "tag": "生物计算"
+        },
+        {
+            "title": "Meta 开源 LLaMA 4，性能接近闭源模型",
+            "source": "Meta",
+            "url": "https://ai.meta.com",
+            "summary": "LLaMA 4 采用新的训练方法，在多项任务上达到了与 GPT-4 相近的性能，推动开源 AI 发展。",
+            "date": "2026-03-09",
+            "tag": "开源"
+        },
+        {
+            "title": "微软发布 Copilot Workspace，AI 编程全面升级",
+            "source": "Microsoft",
+            "url": "https://copilot.microsoft.com",
+            "summary": "Copilot Workspace 能够理解整个代码库，自动完成复杂的重构和 bug 修复任务。",
+            "date": "2026-03-08",
+            "tag": "开发者工具"
+        },
+        {
+            "title": "AI 视频生成再突破：Sora 2 支持 10 分钟高清视频",
+            "source": "OpenAI",
+            "url": "https://openai.com/sora",
+            "summary": "Sora 2 在视频质量、长度和一致性方面都有显著提升，AI 生成视频进入实用阶段。",
+            "date": "2026-03-07",
+            "tag": "AIGC"
+        }
+    ]
+}
