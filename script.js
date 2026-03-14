@@ -295,5 +295,109 @@ async function loadNews() {
 // 页面加载完成后获取新闻
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initAuth();
     loadNews();
 });
+
+// 初始化认证功能
+function initAuth() {
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userInfo = document.getElementById('userInfo');
+    const usernameSpan = document.getElementById('username');
+    
+    // 检查登录状态
+    const currentUser = localStorage.getItem('ai_news_user');
+    if (currentUser) {
+        showLoggedIn(currentUser);
+    }
+    
+    // 注册按钮
+    if (registerBtn) {
+        registerBtn.addEventListener('click', () => {
+            const username = prompt('请输入用户名:');
+            if (!username) return;
+            const password = prompt('请输入密码:');
+            if (!password) return;
+            
+            registerUser(username, password);
+        });
+    }
+    
+    // 登录按钮
+    if (loginBtn) {
+        loginBtn.addEventListener('click', () => {
+            const username = prompt('请输入用户名:');
+            if (!username) return;
+            const password = prompt('请输入密码:');
+            if (!password) return;
+            
+            loginUser(username, password);
+        });
+    }
+    
+    // 退出按钮
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('ai_news_user');
+            showLoggedOut();
+        });
+    }
+}
+
+// 注册用户
+function registerUser(username, password) {
+    const users = JSON.parse(localStorage.getItem('ai_news_users') || '{}');
+    
+    if (users[username]) {
+        alert('用户名已存在!');
+        return;
+    }
+    
+    // 简单密码加密（演示用，生产环境请使用后端）
+    const hashed = btoa(username + ':' + password);
+    users[username] = { hash: hashed, created: new Date().toISOString() };
+    localStorage.setItem('ai_news_users', JSON.stringify(users));
+    
+    alert('注册成功!请登录');
+}
+
+// 登录用户
+function loginUser(username, password) {
+    const users = JSON.parse(localStorage.getItem('ai_news_users') || '{}');
+    const hashed = btoa(username + ':' + password);
+    
+    if (users[username] && users[username].hash === hashed) {
+        localStorage.setItem('ai_news_user', username);
+        showLoggedIn(username);
+    } else {
+        alert('用户名或密码错误!');
+    }
+}
+
+// 显示已登录状态
+function showLoggedIn(username) {
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const userInfo = document.getElementById('userInfo');
+    const usernameSpan = document.getElementById('username');
+    
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (registerBtn) registerBtn.style.display = 'none';
+    if (userInfo) {
+        userInfo.style.display = 'flex';
+        usernameSpan.textContent = '👤 ' + username;
+    }
+}
+
+// 显示未登录状态
+function showLoggedOut() {
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const userInfo = document.getElementById('userInfo');
+    
+    if (loginBtn) loginBtn.style.display = 'inline-block';
+    if (registerBtn) registerBtn.style.display = 'inline-block';
+    if (userInfo) userInfo.style.display = 'none';
+}

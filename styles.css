@@ -70,6 +70,54 @@ header h1 {
     margin-bottom: 15px;
 }
 
+/* Auth Buttons */
+.auth-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.auth-btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.auth-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.auth-btn-primary {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+}
+
+.auth-btn-primary:hover {
+    background: var(--accent-hover);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+#logoutBtn {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+}
+
 .last-update {
     font-size: 0.9rem;
     color: var(--text-secondary);

@@ -12,6 +12,14 @@
         <div class="container">
             <h1>🤖 AI Daily News</h1>
             <p class="subtitle">每日 AI 资讯聚合</p>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="auth-btn">登录</button>
+                <button id="registerBtn" class="auth-btn auth-btn-primary">注册</button>
+                <span id="userInfo" class="user-info" style="display: none;">
+                    <span id="username"></span>
+                    <button id="logoutBtn" class="auth-btn">退出</button>
+                </span>
+            </div>
             <div class="date-selector">
                 <label for="datePicker">📅 选择日期：</label>
                 <input type="date" id="datePicker" max="">
