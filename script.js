@@ -3,11 +3,46 @@
 const NEWS_DATA_URL = 'news.json';
 let allNews = [];
 
+// 从localStorage获取最后选择的日期
+function getLastSelectedDate() {
+    return localStorage.getItem('aiDailyNews_lastDate') || '';
+}
+
+// 保存选择的日期到localStorage
+function saveSelectedDate(date) {
+    if (date) {
+        localStorage.setItem('aiDailyNews_lastDate', date);
+    } else {
+        localStorage.removeItem('aiDailyNews_lastDate');
+    }
+}
+
+// 获取日期的前一天
+function getPreviousDate(dateString) {
+    const date = new Date(dateString);
+    date.setDate(date.getDate() - 1);
+    return date.toISOString().split('T')[0];
+}
+
+// 获取日期的后一天
+function getNextDate(dateString) {
+    const date = new Date(dateString);
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split('T')[0];
+}
+
+// 检查是否有指定日期的新闻
+function hasNewsOnDate(date) {
+    return allNews.some(item => item.date === date);
+}
+
 // 初始化日期选择器
 function initDatePicker() {
     const datePicker = document.getElementById('datePicker');
     const todayBtn = document.getElementById('todayBtn');
     const allBtn = document.getElementById('allBtn');
+    const prevBtn = document.getElementById('prevDayBtn');
+    const nextBtn = document.getElementById('nextDayBtn');
     
     // 设置最大日期为今天
     const today = new Date();
@@ -23,6 +58,62 @@ function initDatePicker() {
         datePicker.value = '';
         renderNews(allNews);
         updateFilterStatus('全部资讯');
+        saveSelectedDate('');
+    });
+    
+    // Previous/Next day buttons
+    prevBtn.addEventListener('click', () => {
+        let currentDate = datePicker.value;
+        if (!currentDate) {
+            // 如果没有选择日期，从今天开始
+            currentDate = today.toISOString().split('T')[0];
+        }
+        
+        let prevDate = getPreviousDate(currentDate);
+        // 找到有新闻的最近日期（最多回溯30天）
+        let attempts = 0;
+        while (!hasNewsOnDate(prevDate) && attempts < 30) {
+            prevDate = getPreviousDate(prevDate);
+            attempts++;
+        }
+        
+        if (hasNewsOnDate(prevDate)) {
+            datePicker.value = prevDate;
+            handleDateChange();
+        } else {
+            alert('没有更早的新闻了');
+        }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+        let currentDate = datePicker.value;
+        if (!currentDate) {
+            // 如果没有选择日期，从今天开始
+            currentDate = today.toISOString().split('T')[0];
+        }
+        
+        let nextDate = getNextDate(currentDate);
+        const maxDate = today.toISOString().split('T')[0];
+        
+        // 确保不超过今天
+        if (nextDate > maxDate) {
+            alert('已经是最新日期了');
+            return;
+        }
+        
+        // 找到有新闻的最近日期（最多前推30天）
+        let attempts = 0;
+        while (!hasNewsOnDate(nextDate) && nextDate <= maxDate && attempts < 30) {
+            nextDate = getNextDate(nextDate);
+            attempts++;
+        }
+        
+        if (nextDate <= maxDate && hasNewsOnDate(nextDate)) {
+            datePicker.value = nextDate;
+            handleDateChange();
+        } else {
+            alert('没有更新的新闻了');
+        }
     });
 }
 
@@ -34,6 +125,7 @@ function handleDateChange() {
     if (!selectedDate) {
         renderNews(allNews);
         updateFilterStatus('全部资讯');
+        saveSelectedDate('');
         return;
     }
     
@@ -41,6 +133,7 @@ function handleDateChange() {
     const filteredNews = allNews.filter(item => item.date === selectedDate);
     renderNews(filteredNews);
     updateFilterStatus(selectedDate);
+    saveSelectedDate(selectedDate);
 }
 
 // 更新筛选状态显示
@@ -160,16 +253,26 @@ async function loadNews() {
         // 初始化日期选择器
         initDatePicker();
         
-        // 默认显示最新新闻（今天或最新的）
+        // 默认显示最后选择的日期或最新新闻
+        const lastSelectedDate = getLastSelectedDate();
         const today = new Date().toISOString().split('T')[0];
-        const todayNews = allNews.filter(item => item.date === today);
         
-        if (todayNews.length > 0) {
-            document.getElementById('datePicker').value = today;
-            renderNews(todayNews);
-            updateFilterStatus(today);
+        if (lastSelectedDate && hasNewsOnDate(lastSelectedDate)) {
+            // 显示上次选择的日期
+            document.getElementById('datePicker').value = lastSelectedDate;
+            const filteredNews = allNews.filter(item => item.date === lastSelectedDate);
+            renderNews(filteredNews);
+            updateFilterStatus(lastSelectedDate);
+        } else if (allNews.length > 0) {
+            // 如果没有上次选择的日期，显示最新的新闻
+            const latestNews = allNews[allNews.length - 1];
+            const latestDate = latestNews.date;
+            document.getElementById('datePicker').value = latestDate;
+            const latestNewsItems = allNews.filter(item => item.date === latestDate);
+            renderNews(latestNewsItems);
+            updateFilterStatus(latestDate);
         } else {
-            // 如果没有今天的新闻，显示最新的
+            // 如果没有新闻，显示全部（空）
             renderNews(allNews);
             updateFilterStatus('全部资讯');
         }

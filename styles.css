@@ -105,7 +105,7 @@ header h1 {
     cursor: pointer;
 }
 
-.today-btn, .all-btn {
+.today-btn, .all-btn, .nav-btn {
     padding: 10px 20px;
     font-size: 0.9rem;
     border: none;
@@ -113,6 +113,24 @@ header h1 {
     cursor: pointer;
     transition: all 0.2s;
     font-weight: 500;
+}
+
+.nav-btn {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    min-width: 40px;
+    padding: 10px;
+}
+
+.nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .today-btn {
