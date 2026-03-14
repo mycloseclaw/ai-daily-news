@@ -1,6 +1,66 @@
 // AI Daily News - Frontend Script
 
 const NEWS_DATA_URL = 'news.json';
+let allNews = [];
+
+// 初始化日期选择器
+function initDatePicker() {
+    const datePicker = document.getElementById('datePicker');
+    const todayBtn = document.getElementById('todayBtn');
+    const allBtn = document.getElementById('allBtn');
+    
+    // 设置最大日期为今天
+    const today = new Date();
+    datePicker.max = today.toISOString().split('T')[0];
+    
+    // 绑定事件
+    datePicker.addEventListener('change', handleDateChange);
+    todayBtn.addEventListener('click', () => {
+        datePicker.value = today.toISOString().split('T')[0];
+        handleDateChange();
+    });
+    allBtn.addEventListener('click', () => {
+        datePicker.value = '';
+        renderNews(allNews);
+        updateFilterStatus('全部资讯');
+    });
+}
+
+// 处理日期变更
+function handleDateChange() {
+    const datePicker = document.getElementById('datePicker');
+    const selectedDate = datePicker.value;
+    
+    if (!selectedDate) {
+        renderNews(allNews);
+        updateFilterStatus('全部资讯');
+        return;
+    }
+    
+    // 筛选当天新闻
+    const filteredNews = allNews.filter(item => item.date === selectedDate);
+    renderNews(filteredNews);
+    updateFilterStatus(selectedDate);
+}
+
+// 更新筛选状态显示
+function updateFilterStatus(dateInfo) {
+    let statusEl = document.getElementById('filterStatus');
+    if (!statusEl) {
+        const dateSelector = document.querySelector('.date-selector');
+        statusEl = document.createElement('p');
+        statusEl.id = 'filterStatus';
+        statusEl.className = 'filter-status';
+        dateSelector.appendChild(statusEl);
+    }
+    
+    if (dateInfo === '全部资讯') {
+        statusEl.textContent = `📊 共 ${allNews.length} 条资讯`;
+    } else {
+        const count = allNews.filter(item => item.date === dateInfo).length;
+        statusEl.textContent = `📊 ${dateInfo} 共 ${count} 条资讯`;
+    }
+}
 
 // 格式化日期
 function formatDate(dateString) {
@@ -91,11 +151,28 @@ async function loadNews() {
         const response = await fetch(NEWS_DATA_URL);
         const data = await response.json();
         
+        // 保存所有新闻
+        allNews = data.news;
+        
         // 更新最后更新时间
         document.getElementById('lastUpdate').textContent = formatLastUpdate(data.lastUpdate);
         
-        // 渲染新闻
-        renderNews(data.news);
+        // 初始化日期选择器
+        initDatePicker();
+        
+        // 默认显示最新新闻（今天或最新的）
+        const today = new Date().toISOString().split('T')[0];
+        const todayNews = allNews.filter(item => item.date === today);
+        
+        if (todayNews.length > 0) {
+            document.getElementById('datePicker').value = today;
+            renderNews(todayNews);
+            updateFilterStatus(today);
+        } else {
+            // 如果没有今天的新闻，显示最新的
+            renderNews(allNews);
+            updateFilterStatus('全部资讯');
+        }
     } catch (error) {
         console.error('加载新闻失败:', error);
         document.getElementById('newsGrid').innerHTML = 

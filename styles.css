@@ -64,6 +64,83 @@ header h1 {
     color: var(--accent);
 }
 
+/* Date Selector */
+.date-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.date-selector label {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+#datePicker {
+    padding: 10px 16px;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#datePicker:hover {
+    border-color: var(--accent);
+}
+
+#datePicker:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--shadow);
+}
+
+#datePicker::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.today-btn, .all-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.today-btn {
+    background: var(--accent);
+    color: var(--bg-primary);
+}
+
+.today-btn:hover {
+    background: var(--accent-hover);
+}
+
+.all-btn {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.all-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.filter-status {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
 /* Main Content */
 main {
     padding: 40px 20px;
