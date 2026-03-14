@@ -249,20 +249,17 @@ function renderNews(news) {
 // 加载新闻数据
 async function loadNews() {
     try {
-        // 先初始化日期选择器
-        initDatePicker();
+        // 获取日期筛选输入 (id="date")
+        const dateInput = document.getElementById('date');
+        let selectedDate = dateInput ? dateInput.value : '';
         
-        // 获取选中的日期
-        const datePicker = document.getElementById('datePicker');
-        let selectedDate = datePicker ? datePicker.value : '';
-        
-        console.log('datePicker.value:', datePicker.value);
-        console.log('selectedDate:', selectedDate);
+        console.log('dateInput:', dateInput);
+        console.log('dateInput.value:', dateInput?.value);
         
         // 如果没有选择日期，默认今天
         if (!selectedDate) {
             selectedDate = new Date().toISOString().split('T')[0];
-            if (datePicker) datePicker.value = selectedDate;
+            if (dateInput) dateInput.value = selectedDate;
         }
         
         console.log('Final selectedDate:', selectedDate);
@@ -275,15 +272,14 @@ async function loadNews() {
         }
         
         const data = await response.json();
+        console.log('Total news count:', data.news.length);
         
         // 按日期筛选
         const filteredNews = data.news.filter(item => item.date === selectedDate);
         console.log('Filtered news count:', filteredNews.length, 'for date:', selectedDate);
         
         if (filteredNews.length === 0) {
-            // 显示所有可用日期帮助调试
-            const dates = [...new Set(data.news.map(i => i.date))].sort();
-            throw new Error(`当天暂无新闻。可用日期: ${dates.slice(-5).join(', ')}`);
+            throw new Error('当天暂无新闻');
         }
         
         // 保存所有新闻
