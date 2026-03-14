@@ -262,21 +262,36 @@ async function loadNews() {
             if (datePicker) datePicker.value = selectedDate;
         }
         
-        console.log('Loading news for date:', selectedDate);
+        // 尝试从 news 目录加载
+        let data = null;
         
-        // 从每日新闻文件加载
-        const newsUrl = `./news/${selectedDate}.json`;
-        console.log('Fetching URL:', newsUrl);
+        // 尝试不同的 URL 路径
+        const urls = [
+            `./news/${selectedDate}.json`,
+            `news/${selectedDate}.json`,
+            `https://raw.githubusercontent.com/mycloseclaw/ai-daily-news/main/news/${selectedDate}.json`
+        ];
         
-        const response = await fetch(newsUrl);
-        console.log('Response status:', response.status);
-        
-        if (!response.ok) {
-            throw new Error(`News file not found: ${response.status}`);
+        for (const newsUrl of urls) {
+            try {
+                console.log('Trying URL:', newsUrl);
+                const response = await fetch(newsUrl);
+                if (response.ok) {
+                    data = await response.json();
+                    console.log('Success! Loaded', data.news.length, 'news items');
+                    break;
+                }
+            } catch (e) {
+                console.log('Failed:', newsUrl, e.message);
+            }
         }
         
-        const data = await response.json();
-        console.log('Loaded news count:', data.news.length);
+        if (!data) {
+            throw new Error('无法加载新闻数据');
+        }
+        
+        // 保存所有新闻
+        allNews = data.news;
         
         if (!response.ok) {
             throw new Error('News file not found');
