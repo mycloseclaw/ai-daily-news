@@ -33,6 +33,11 @@
     </header>
 
     <main class="container">
+        <div id="newsGrid" class="news-grid">
+            <!-- 新闻卡片将通过 JavaScript 动态加载 -->
+            <div class="loading">正在加载资讯...</div>
+        </div>
+        
         <!-- 留言板 -->
         <section class="comment-board">
             <h2>💬 留言板</h2>
@@ -43,11 +48,6 @@
             <p id="loginPrompt" class="login-prompt">登录后即可发表评论</p>
             <div id="commentList" class="comment-list"></div>
         </section>
-
-        <div id="newsGrid" class="news-grid">
-            <!-- 新闻卡片将通过 JavaScript 动态加载 -->
-            <div class="loading">正在加载资讯...</div>
-        </div>
     </main>
 
     <footer>
