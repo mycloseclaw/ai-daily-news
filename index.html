@@ -33,6 +33,17 @@
     </header>
 
     <main class="container">
+        <!-- 留言板 -->
+        <section class="comment-board">
+            <h2>💬 留言板</h2>
+            <div id="commentForm" class="comment-form" style="display: none;">
+                <textarea id="commentInput" placeholder="写下你的评论... (支持 Markdown)" rows="4"></textarea>
+                <button id="submitComment" class="submit-btn">发布评论</button>
+            </div>
+            <p id="loginPrompt" class="login-prompt">登录后即可发表评论</p>
+            <div id="commentList" class="comment-list"></div>
+        </section>
+
         <div id="newsGrid" class="news-grid">
             <!-- 新闻卡片将通过 JavaScript 动态加载 -->
             <div class="loading">正在加载资讯...</div>

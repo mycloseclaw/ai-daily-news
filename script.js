@@ -296,6 +296,7 @@ async function loadNews() {
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initAuth();
+    initCommentBoard();
     loadNews();
 });
 
@@ -389,6 +390,7 @@ function showLoggedIn(username) {
         userInfo.style.display = 'flex';
         usernameSpan.textContent = '👤 ' + username;
     }
+    updateCommentBoardUI();
 }
 
 // 显示未登录状态
@@ -396,8 +398,134 @@ function showLoggedOut() {
     const loginBtn = document.getElementById('loginBtn');
     const registerBtn = document.getElementById('registerBtn');
     const userInfo = document.getElementById('userInfo');
+    const commentForm = document.getElementById('commentForm');
+    const loginPrompt = document.getElementById('loginPrompt');
     
     if (loginBtn) loginBtn.style.display = 'inline-block';
     if (registerBtn) registerBtn.style.display = 'inline-block';
     if (userInfo) userInfo.style.display = 'none';
+    if (commentForm) commentForm.style.display = 'none';
+    if (loginPrompt) loginPrompt.style.display = 'block';
+    updateCommentBoardUI();
+}
+
+// ========== 留言板功能 ==========
+
+// 初始化留言板
+function initCommentBoard() {
+    const commentForm = document.getElementById('commentForm');
+    const submitBtn = document.getElementById('submitComment');
+    const commentInput = document.getElementById('commentInput');
+    
+    // 加载已有评论
+    loadComments();
+    
+    // 提交评论
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            const content = commentInput.value.trim();
+            if (!content) {
+                alert('请输入评论内容');
+                return;
+            }
+            
+            const username = localStorage.getItem('ai_news_user');
+            if (!username) {
+                alert('请先登录');
+                return;
+            }
+            
+            addComment(username, content);
+            commentInput.value = '';
+        });
+    }
+    
+    // 根据登录状态显示/隐藏评论表单
+    updateCommentBoardUI();
+}
+
+// 更新留言板UI
+function updateCommentBoardUI() {
+    const currentUser = localStorage.getItem('ai_news_user');
+    const commentForm = document.getElementById('commentForm');
+    const loginPrompt = document.getElementById('loginPrompt');
+    
+    if (currentUser) {
+        if (commentForm) commentForm.style.display = 'block';
+        if (loginPrompt) loginPrompt.style.display = 'none';
+    } else {
+        if (commentForm) commentForm.style.display = 'none';
+        if (loginPrompt) loginPrompt.style.display = 'block';
+    }
+}
+
+// 加载评论
+function loadComments() {
+    const comments = JSON.parse(localStorage.getItem('ai_news_comments') || '[]');
+    const commentList = document.getElementById('commentList');
+    
+    if (!commentList) return;
+    
+    if (comments.length === 0) {
+        commentList.innerHTML = '<p class="login-prompt">暂无评论，快来抢沙发吧~</p>';
+        return;
+    }
+    
+    // 按时间倒序排列
+    comments.sort((a, b) => new Date(b.created) - new Date(a.created));
+    
+    commentList.innerHTML = comments.map(comment => `
+        <div class="comment-item">
+            <div class="comment-header">
+                <span class="comment-author">${escapeHtml(comment.username)}</span>
+                <span class="comment-date">${formatDate(comment.created)}</span>
+            </div>
+            <div class="comment-content">${parseMarkdown(comment.content)}</div>
+        </div>
+    `).join('');
+}
+
+// 添加评论
+function addComment(username, content) {
+    const comments = JSON.parse(localStorage.getItem('ai_news_comments') || '[]');
+    
+    comments.push({
+        id: Date.now(),
+        username: username,
+        content: content,
+        created: new Date().toISOString()
+    });
+    
+    localStorage.setItem('ai_news_comments', JSON.stringify(comments));
+    loadComments();
+}
+
+// HTML转义
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// 简单Markdown解析
+function parseMarkdown(text) {
+    // 转义HTML
+    text = escapeHtml(text);
+    
+    // 粗体 **text**
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    
+    // 斜体 *text*
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    
+    // 代码 `code`
+    text = text.replace(/`(.+?)`/g, '<code>$1</code>');
+    
+    // 链接 [text](url)
+    text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>');
+    
+    // 换行
+    text = text.replace(/\n/g, '<br>');
+    
+    return text;
 }
