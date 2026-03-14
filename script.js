@@ -1,6 +1,5 @@
 // AI Daily News - Frontend Script
 
-const NEWS_DATA_URL = 'news.json';
 let allNews = [];
 
 // 初始化主题 - 读取URL参数
@@ -250,7 +249,18 @@ function renderNews(news) {
 // 加载新闻数据
 async function loadNews() {
     try {
-        const response = await fetch(NEWS_DATA_URL);
+        // 获取选中的日期，默认为今天
+        const datePicker = document.getElementById('datePicker');
+        const selectedDate = datePicker ? datePicker.value : new Date().toISOString().split('T')[0];
+        
+        // 从每日新闻文件加载
+        const newsUrl = `news/${selectedDate}.json`;
+        const response = await fetch(newsUrl);
+        
+        if (!response.ok) {
+            throw new Error('News file not found');
+        }
+        
         const data = await response.json();
         
         // 保存所有新闻
@@ -262,33 +272,46 @@ async function loadNews() {
         // 初始化日期选择器
         initDatePicker();
         
-        // 默认显示最后选择的日期或最新新闻
-        const lastSelectedDate = getLastSelectedDate();
-        const today = new Date().toISOString().split('T')[0];
+        // 显示当天新闻
+        renderNews(allNews);
+        updateFilterStatus(selectedDate);
         
-        if (lastSelectedDate && hasNewsOnDate(lastSelectedDate)) {
-            // 显示上次选择的日期
-            document.getElementById('datePicker').value = lastSelectedDate;
-            const filteredNews = allNews.filter(item => item.date === lastSelectedDate);
-            renderNews(filteredNews);
-            updateFilterStatus(lastSelectedDate);
-        } else if (allNews.length > 0) {
-            // 如果没有上次选择的日期，显示最新的新闻
-            const latestNews = allNews[allNews.length - 1];
-            const latestDate = latestNews.date;
-            document.getElementById('datePicker').value = latestDate;
-            const latestNewsItems = allNews.filter(item => item.date === latestDate);
-            renderNews(latestNewsItems);
-            updateFilterStatus(latestDate);
-        } else {
-            // 如果没有新闻，显示全部（空）
-            renderNews(allNews);
-            updateFilterStatus('全部资讯');
-        }
     } catch (error) {
         console.error('加载新闻失败:', error);
         document.getElementById('newsGrid').innerHTML = 
-            '<div class="loading">加载失败，请稍后重试</div>';
+            '<div class="loading">当天暂无新闻，请选择其他日期</div>';
+    }
+}
+
+// 加载所有新闻（从3月1日到今天）
+async function loadAllNews() {
+    try {
+        const today = new Date();
+        const startDate = new Date('2026-03-01');
+        const endDate = new Date(today.toISOString().split('T')[0]);
+        
+        const allNewsItems = [];
+        
+        // 遍历每天
+        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+            const dateStr = d.toISOString().split('T')[0];
+            
+            try {
+                const response = await fetch(`news/${dateStr}.json`);
+                if (response.ok) {
+                    const data = await response.json();
+                    allNewsItems.push(...data.news);
+                }
+            } catch (e) {
+                // 跳过找不到的文件
+            }
+        }
+        
+        allNews = allNewsItems;
+        renderNews(allNews);
+        
+    } catch (error) {
+        console.error('加载全部新闻失败:', error);
     }
 }
 

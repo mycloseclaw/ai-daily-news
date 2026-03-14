@@ -1,0 +1,165 @@
+{
+  "lastUpdate": "2026-03-03T00:00:00Z",
+  "news": [
+    {
+      "title": "OpenAI 发布 GPT-5，带来前所未有的推理能力",
+      "source": "OpenAI",
+      "url": "https://example.com/news/2026-03-03/0",
+      "summary": "这是一条关于 OpenAI 最新 AI 进展的报道。发布 GPT-5，带来前所未有的推理能力 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "大模型"
+    },
+    {
+      "title": "Anthropic 推出 Claude 4，性能超越 GPT-5",
+      "source": "Anthropic",
+      "url": "https://example.com/news/2026-03-03/1",
+      "summary": "这是一条关于 Anthropic 最新 AI 进展的报道。推出 Claude 4，性能超越 GPT-5 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "AIGC"
+    },
+    {
+      "title": "Google DeepMind 发布 AlphaFold 3，预测所有生物分子结构",
+      "source": "Google DeepMind",
+      "url": "https://example.com/news/2026-03-03/2",
+      "summary": "这是一条关于 Google DeepMind 最新 AI 进展的报道。发布 AlphaFold 3，预测所有生物分子结构 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "开发者工具"
+    },
+    {
+      "title": "⭐️ Meta 开源 LLaMA 4，性能接近闭源模型",
+      "source": "Meta",
+      "url": "https://example.com/news/2026-03-03/3",
+      "summary": "这是一条关于 Meta 最新 AI 进展的报道。开源 LLaMA 4，性能接近闭源模型 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "开源"
+    },
+    {
+      "title": "Microsoft 发布 Copilot Workspace，AI 编程全面升级",
+      "source": "Microsoft",
+      "url": "https://example.com/news/2026-03-03/4",
+      "summary": "这是一条关于 Microsoft 最新 AI 进展的报道。发布 Copilot Workspace，AI 编程全面升级 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "芯片"
+    },
+    {
+      "title": "Apple AI 视频生成再突破：Sora 2 支持 10 分钟高清视频",
+      "source": "Apple",
+      "url": "https://example.com/news/2026-03-03/5",
+      "summary": "这是一条关于 Apple 最新 AI 进展的报道。AI 视频生成再突破：Sora 2 支持 10 分钟高清视频 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "机器人"
+    },
+    {
+      "title": "⭐️ Amazon 发布新一代 AI 芯片，性能提升 10 倍",
+      "source": "Amazon",
+      "url": "https://example.com/news/2026-03-03/6",
+      "summary": "这是一条关于 Amazon 最新 AI 进展的报道。发布新一代 AI 芯片，性能提升 10 倍 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "自动驾驶"
+    },
+    {
+      "title": "NVIDIA 推出 AI 助手产品，用户突破 1 亿",
+      "source": "NVIDIA",
+      "url": "https://example.com/news/2026-03-03/7",
+      "summary": "这是一条关于 NVIDIA 最新 AI 进展的报道。推出 AI 助手产品，用户突破 1 亿 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "生物计算"
+    },
+    {
+      "title": "xAI 开源新的多模态模型，支持图像和视频理解",
+      "source": "xAI",
+      "url": "https://example.com/news/2026-03-03/8",
+      "summary": "这是一条关于 xAI 最新 AI 进展的报道。开源新的多模态模型，支持图像和视频理解 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "AI安全"
+    },
+    {
+      "title": "Mistral AI 发布 AI 安全指南，强调负责任 AI 开发",
+      "source": "Mistral AI",
+      "url": "https://example.com/news/2026-03-03/9",
+      "summary": "这是一条关于 Mistral AI 最新 AI 进展的报道。发布 AI 安全指南，强调负责任 AI 开发 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "学术研究"
+    },
+    {
+      "title": "⭐️ Stability AI 推出企业级 AI 解决方案",
+      "source": "Stability AI",
+      "url": "https://example.com/news/2026-03-03/10",
+      "summary": "这是一条关于 Stability AI 最新 AI 进展的报道。推出企业级 AI 解决方案 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "投资并购"
+    },
+    {
+      "title": "Hugging Face 发布新一代搜索引擎，整合 AI 能力",
+      "source": "Hugging Face",
+      "url": "https://example.com/news/2026-03-03/11",
+      "summary": "这是一条关于 Hugging Face 最新 AI 进展的报道。发布新一代搜索引擎，整合 AI 能力 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "产品发布"
+    },
+    {
+      "title": "Baidu 推出 AI 编程助手，用户满意度创新高",
+      "source": "Baidu",
+      "url": "https://example.com/news/2026-03-03/12",
+      "summary": "这是一条关于 Baidu 最新 AI 进展的报道。推出 AI 编程助手，用户满意度创新高 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "行业动态"
+    },
+    {
+      "title": "Alibaba Cloud 开源扩散模型技术，提升生成效率",
+      "source": "Alibaba Cloud",
+      "url": "https://example.com/news/2026-03-03/13",
+      "summary": "这是一条关于 Alibaba Cloud 最新 AI 进展的报道。开源扩散模型技术，提升生成效率 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "技术解读"
+    },
+    {
+      "title": "Tencent AI Lab 发布 AI 评估基准，覆盖 100+ 任务",
+      "source": "Tencent AI Lab",
+      "url": "https://example.com/news/2026-03-03/14",
+      "summary": "这是一条关于 Tencent AI Lab 最新 AI 进展的报道。发布 AI 评估基准，覆盖 100+ 任务 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "AI硬件"
+    },
+    {
+      "title": "ByteDance 推出边缘 AI 芯片，支持实时推理",
+      "source": "ByteDance",
+      "url": "https://example.com/news/2026-03-03/15",
+      "summary": "这是一条关于 ByteDance 最新 AI 进展的报道。推出边缘 AI 芯片，支持实时推理 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "大模型"
+    },
+    {
+      "title": "SenseTime 发布多语言大模型，支持 100+ 语言",
+      "source": "SenseTime",
+      "url": "https://example.com/news/2026-03-03/16",
+      "summary": "这是一条关于 SenseTime 最新 AI 进展的报道。发布多语言大模型，支持 100+ 语言 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "AIGC"
+    },
+    {
+      "title": "⭐️ Megvii 开源 RLHF 训练框架",
+      "source": "Megvii",
+      "url": "https://example.com/news/2026-03-03/17",
+      "summary": "这是一条关于 Megvii 最新 AI 进展的报道。开源 RLHF 训练框架 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "开发者工具"
+    },
+    {
+      "title": "Mistral 推出 AI 写作助手，支持 20+ 文体",
+      "source": "Mistral",
+      "url": "https://example.com/news/2026-03-03/18",
+      "summary": "这是一条关于 Mistral 最新 AI 进展的报道。推出 AI 写作助手，支持 20+ 文体 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "开源"
+    },
+    {
+      "title": "⭐️ Cohere 发布 AI 音乐生成模型",
+      "source": "Cohere",
+      "url": "https://example.com/news/2026-03-03/19",
+      "summary": "这是一条关于 Cohere 最新 AI 进展的报道。发布 AI 音乐生成模型 的发布标志着 AI 技术又迈出了重要一步，为行业发展带来新的机遇和挑战。",
+      "date": "2026-03-03",
+      "tag": "芯片"
+    }
+  ]
+}
