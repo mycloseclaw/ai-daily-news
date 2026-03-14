@@ -251,18 +251,16 @@ async function loadNews() {
     try {
         // 获取日期筛选输入 (id="date")
         const dateInput = document.getElementById('date');
-        let selectedDate = dateInput ? dateInput.value : '';
         
-        console.log('dateInput:', dateInput);
-        console.log('dateInput.value:', dateInput?.value);
-        
-        // 如果没有选择日期，默认今天
-        if (!selectedDate) {
-            selectedDate = new Date().toISOString().split('T')[0];
-            if (dateInput) dateInput.value = selectedDate;
+        // 默认设置为今天
+        const today = new Date().toISOString().split('T')[0];
+        if (dateInput && !dateInput.value) {
+            dateInput.value = today;
         }
         
-        console.log('Final selectedDate:', selectedDate);
+        let selectedDate = dateInput ? dateInput.value : today;
+        
+        console.log('Selected date:', selectedDate);
         
         // 从 news.json 加载所有新闻
         const response = await fetch('./news.json');
@@ -276,7 +274,7 @@ async function loadNews() {
         
         // 按日期筛选
         const filteredNews = data.news.filter(item => item.date === selectedDate);
-        console.log('Filtered news count:', filteredNews.length, 'for date:', selectedDate);
+        console.log('Filtered news count:', filteredNews.length);
         
         if (filteredNews.length === 0) {
             throw new Error('当天暂无新闻');
