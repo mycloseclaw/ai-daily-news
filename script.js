@@ -3,6 +3,15 @@
 const NEWS_DATA_URL = 'news.json';
 let allNews = [];
 
+// 初始化主题 - 读取URL参数
+function initTheme() {
+    const params = new URLSearchParams(window.location.search);
+    const theme = params.get('theme');
+    if (theme === 'light' || theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+}
+
 // 从localStorage获取最后选择的日期
 function getLastSelectedDate() {
     return localStorage.getItem('aiDailyNews_lastDate') || '';
@@ -284,4 +293,7 @@ async function loadNews() {
 }
 
 // 页面加载完成后获取新闻
-document.addEventListener('DOMContentLoaded', loadNews);
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    loadNews();
+});
