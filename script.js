@@ -256,11 +256,16 @@ async function loadNews() {
         const datePicker = document.getElementById('datePicker');
         let selectedDate = datePicker ? datePicker.value : '';
         
+        console.log('datePicker.value:', datePicker.value);
+        console.log('selectedDate:', selectedDate);
+        
         // 如果没有选择日期，默认今天
         if (!selectedDate) {
             selectedDate = new Date().toISOString().split('T')[0];
             if (datePicker) datePicker.value = selectedDate;
         }
+        
+        console.log('Final selectedDate:', selectedDate);
         
         // 从 news.json 加载所有新闻
         const response = await fetch('./news.json');
