@@ -249,9 +249,18 @@ function renderNews(news) {
 // 加载新闻数据
 async function loadNews() {
     try {
-        // 获取选中的日期，默认为今天
+        // 先初始化日期选择器
+        initDatePicker();
+        
+        // 获取选中的日期
         const datePicker = document.getElementById('datePicker');
-        const selectedDate = datePicker ? datePicker.value : new Date().toISOString().split('T')[0];
+        let selectedDate = datePicker ? datePicker.value : '';
+        
+        // 如果没有选择日期，默认今天
+        if (!selectedDate) {
+            selectedDate = new Date().toISOString().split('T')[0];
+            if (datePicker) datePicker.value = selectedDate;
+        }
         
         // 从每日新闻文件加载
         const newsUrl = `news/${selectedDate}.json`;
