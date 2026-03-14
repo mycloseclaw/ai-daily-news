@@ -300,7 +300,7 @@ async function loadNews() {
     } catch (error) {
         console.error('加载新闻失败:', error);
         document.getElementById('newsGrid').innerHTML = 
-            '<div class="loading">当天暂无新闻，请选择其他日期</div>';
+            `<div class="loading">加载失败: ${error.message}<br>请尝试选择其他日期</div>`;
     }
 }
 
