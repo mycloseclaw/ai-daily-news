@@ -262,9 +262,21 @@ async function loadNews() {
             if (datePicker) datePicker.value = selectedDate;
         }
         
+        console.log('Loading news for date:', selectedDate);
+        
         // 从每日新闻文件加载
-        const newsUrl = `news/${selectedDate}.json`;
+        const newsUrl = `./news/${selectedDate}.json`;
+        console.log('Fetching URL:', newsUrl);
+        
         const response = await fetch(newsUrl);
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`News file not found: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Loaded news count:', data.news.length);
         
         if (!response.ok) {
             throw new Error('News file not found');
