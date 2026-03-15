@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Daily News - 每日 AI 资讯</title>
-    <link rel="stylesheet" href="src/css/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- 头部 -->
@@ -29,6 +29,26 @@
 
     <!-- 主内容区 -->
     <main>
+        <!-- 筛选栏 -->
+        <div class="filter-bar">
+            <div class="source-filter">
+                <label>来源筛选：</label>
+                <select id="sourceFilter">
+                    <option value="">全部来源</option>
+                    <option value="HuggingFace">HuggingFace</option>
+                    <option value="OpenAI">OpenAI</option>
+                    <option value="Google AI">Google AI</option>
+                    <option value="Meta AI">Meta AI</option>
+                    <option value="Anthropic">Anthropic</option>
+                    <option value="Microsoft">Microsoft</option>
+                    <option value="Stability AI">Stability AI</option>
+                </select>
+            </div>
+            <div class="stats">
+                <span id="newsCount">共 0 条新闻</span>
+            </div>
+        </div>
+
         <div id="newsContainer">
             <div class="loading">加载中...</div>
         </div>
@@ -75,6 +95,11 @@
 
     <!-- 回到顶部按钮 -->
     <button id="backToTop" class="back-to-top" title="回到顶部">↑</button>
+
+    <!-- 快捷键提示 -->
+    <div class="shortcuts-hint">
+        <kbd>/</kbd> 搜索 &nbsp; <kbd>Esc</kbd> 关闭 &nbsp; <kbd>T</kbd> 主题
+    </div>
 
     <!-- 页脚 -->
     <footer>

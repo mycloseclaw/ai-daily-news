@@ -1,9 +1,13 @@
 /**
- * 主入口 - 初始化所有模块
- */
+     * 主入口 - 初始化所有模块
+     */
 
 (function() {
     'use strict';
+
+    // 全局状态
+    let allNews = [];
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
 
     /**
      * 应用初始化
@@ -29,7 +33,127 @@
         // 初始化主题切换
         initThemeToggle();
 
+        // 初始化来源筛选
+        initSourceFilter();
+
+        // 初始化快捷键
+        initKeyboardShortcuts();
+
         console.log('✅ 初始化完成');
+    }
+
+    /**
+     * 初始化来源筛选
+     */
+    function initSourceFilter() {
+        const sourceFilter = document.getElementById('sourceFilter');
+        if (!sourceFilter) return;
+
+        sourceFilter.addEventListener('change', (e) => {
+            filterNews(e.target.value);
+        });
+    }
+
+    /**
+     * 筛选新闻
+     */
+    function filterNews(source) {
+        const filtered = source 
+            ? allNews.filter(news => news.source === source)
+            : allNews;
+        
+        renderNews(filtered);
+    }
+
+    /**
+     * 初始化快捷键
+     */
+    function initKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            // 避免在输入框中触发
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            // / 键 - 聚焦搜索
+            if (e.key === '/') {
+                e.preventDefault();
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.focus();
+            }
+
+            // T 键 - 切换主题
+            if (e.key === 't' || e.key === 'T') {
+                const themeBtn = document.getElementById('themeToggle');
+                if (themeBtn) themeBtn.click();
+            }
+
+            // Esc 键 - 关闭模态框
+            if (e.key === 'Escape') {
+                closeAllModals();
+            }
+        });
+    }
+
+    /**
+     * 切换收藏状态
+     */
+    function toggleFavorite(newsId) {
+        const index = favorites.indexOf(newsId);
+        if (index > -1) {
+            favorites.splice(index, 1);
+        } else {
+            favorites.push(newsId);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        
+        // 更新按钮状态
+        const btn = document.querySelector(`[data-favorite="${newsId}"]`);
+        if (btn) {
+            btn.classList.toggle('active');
+        }
+    }
+
+    /**
+     * 渲染新闻卡片
+     */
+    function renderNews(newsList) {
+        const container = document.getElementById('newsContainer');
+        const newsCount = document.getElementById('newsCount');
+        
+        if (!container) return;
+
+        // 更新统计
+        if (newsCount) {
+            newsCount.textContent = `共 ${newsList.length} 条新闻`;
+        }
+
+        if (!newsList || newsList.length === 0) {
+            container.innerHTML = '<div class="loading">暂无新闻</div>';
+            return;
+        }
+
+        container.innerHTML = newsList.map(news => `
+            <article class="news-card">
+                <div class="news-source">
+                    <span class="source-icon">${getSourceIcon(news.source)}</span>
+                    ${news.source}
+                </div>
+                <h2 class="news-title">
+                    <a href="${news.url}" target="_blank" rel="noopener">${news.title}</a>
+                </h2>
+                <p class="news-summary">${news.summary || ''}</p>
+                <div class="news-meta">
+                    <div class="news-date">📅 ${formatDate(news.date)}</div>
+                    <button class="news-favorite ${favorites.includes(news.id) ? 'active' : ''}" 
+                            data-favorite="${news.id}" 
+                            onclick="toggleFavorite('${news.id}')"
+                            title="${favorites.includes(news.id) ? '取消收藏' : '收藏'}">
+                        ${favorites.includes(news.id) ? '❤️' : '🤍'}
+                    </button>
+                </div>
+            </article>
+        `).join('');
     }
 
     /**
@@ -84,6 +208,53 @@
         const themeBtn = document.getElementById('themeToggle');
         if (themeBtn) {
             themeBtn.textContent = theme === 'dark' ? '🌙' : '☀️';
+        }
+    }
+
+    /**
+     * 获取来源图标
+     */
+    function getSourceIcon(source) {
+        const icons = {
+            'HuggingFace': '🤗',
+            'OpenAI': '🧠',
+            'Google AI': '🔬',
+            'Meta AI': '🔵',
+            'Anthropic': '🧩',
+            'Microsoft': '🪟',
+            'Stability AI': '🎨',
+            'Midjourney': '🎭',
+            'DeepMind': '💎'
+        };
+        return icons[source] || '📰';
+    }
+
+    /**
+     * 格式化日期
+     */
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        
+        try {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diff = now - date;
+            
+            if (diff < 86400000) {
+                const hours = Math.floor(diff / 3600000);
+                if (hours < 1) {
+                    const mins = Math.floor(diff / 60000);
+                    return mins < 1 ? '刚刚' : `${mins}分钟前`;
+                }
+                return `${hours}小时前`;
+            }
+            
+            return date.toLocaleDateString('zh-CN', { 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        } catch {
+            return dateStr;
         }
     }
 
@@ -231,6 +402,12 @@
      */
     async function initNews() {
         await NewsManager.init();
+        
+        // 获取所有新闻并保存到全局变量
+        if (NewsManager.getAllNews) {
+            allNews = NewsManager.getAllNews();
+            renderNews(allNews);
+        }
     }
 
     /**
@@ -269,6 +446,9 @@
     // 暴露切换函数到全局
     window.switchToLogin = switchToLogin;
     window.switchToRegister = switchToRegister;
+    window.toggleFavorite = toggleFavorite;
+    window.getSourceIcon = getSourceIcon;
+    window.formatDate = formatDate;
 
     // DOM 加载完成后初始化
     if (document.readyState === 'loading') {

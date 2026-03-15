@@ -63,19 +63,29 @@ const NewsManager = {
     createNewsCard(news) {
         const tags = ['大模型', 'AIGC', '开发者工具', '开源', '芯片'];
         const tag = news.tag || tags[Math.floor(Math.random() * tags.length)];
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const isFavorited = favorites.includes(news.id);
         
         return `
-            <div class="news-card">
-                <div class="news-tag">${tag}</div>
-                <h3 class="news-title">
+            <article class="news-card">
+                <div class="news-source">
+                    <span class="source-icon">${getSourceIcon(news.source)}</span>
+                    ${news.source}
+                </div>
+                <h2 class="news-title">
                     <a href="${news.url}" target="_blank" rel="noopener">${news.title}</a>
-                </h3>
+                </h2>
                 <p class="news-summary">${news.summary || ''}</p>
                 <div class="news-meta">
-                    <span class="news-source">${news.source}</span>
-                    <span class="news-date">${news.date}</span>
+                    <div class="news-date">📅 ${formatDate(news.date)}</div>
+                    <button class="news-favorite ${isFavorited ? 'active' : ''}" 
+                            data-favorite="${news.id}" 
+                            onclick="toggleFavorite('${news.id}')"
+                            title="${isFavorited ? '取消收藏' : '收藏'}">
+                        ${isFavorited ? '❤️' : '🤍'}
+                    </button>
                 </div>
-            </div>
+            </article>
         `;
     },
 
@@ -154,6 +164,14 @@ const NewsManager = {
     refresh() {
         localStorage.removeItem(API.config.cacheKey);
         this.loadNews();
+    },
+
+    /**
+     * 获取所有新闻
+     * @returns {Array}
+     */
+    getAllNews() {
+        return this.currentNews || [];
     }
 };
 
