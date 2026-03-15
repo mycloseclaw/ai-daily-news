@@ -21,7 +21,14 @@ const NewsManager = {
     async loadNews() {
         try {
             this.showLoading(true);
+            
             const news = await API.fetchNews();
+            
+            if (!news || !Array.isArray(news)) {
+                this.showError('新闻数据格式错误');
+                return;
+            }
+            
             this.currentNews = news;
             this.filteredNews = news;
             this.render();

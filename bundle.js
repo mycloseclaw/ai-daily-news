@@ -324,7 +324,14 @@ const NewsManager = {
     async loadNews() {
         try {
             this.showLoading(true);
+            
             const news = await API.fetchNews();
+            
+            if (!news || !Array.isArray(news)) {
+                this.showError('新闻数据格式错误');
+                return;
+            }
+            
             this.currentNews = news;
             this.filteredNews = news;
             this.render();
@@ -737,6 +744,26 @@ window.MessageBoard = MessageBoard;
 
         dateInput.addEventListener('change', (e) => {
             NewsManager.filterByDate(e.target.value);
+        });
+    }
+
+    /**
+     * 初始化搜索功能
+     */
+    function initSearch() {
+        const searchInput = document.getElementById('searchInput');
+        if (!searchInput) return;
+
+        // 使用防抖优化搜索
+        let debounceTimer;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const keyword = e.target.value.trim();
+                if (NewsManager.searchNews) {
+                    NewsManager.searchNews(keyword);
+                }
+            }, 300);
         });
     }
 

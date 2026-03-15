@@ -126,6 +126,26 @@
     }
 
     /**
+     * 初始化搜索功能
+     */
+    function initSearch() {
+        const searchInput = document.getElementById('searchInput');
+        if (!searchInput) return;
+
+        // 使用防抖优化搜索
+        let debounceTimer;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const keyword = e.target.value.trim();
+                if (NewsManager.searchNews) {
+                    NewsManager.searchNews(keyword);
+                }
+            }, 300);
+        });
+    }
+
+    /**
      * 初始化留言板
      */
     function initMessageBoard() {
