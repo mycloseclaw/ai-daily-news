@@ -23,7 +23,68 @@
         // 初始化新闻模块
         await initNews();
 
+        // 初始化回到顶部按钮
+        initBackToTop();
+
+        // 初始化主题切换
+        initThemeToggle();
+
         console.log('✅ 初始化完成');
+    }
+
+    /**
+     * 初始化回到顶部按钮
+     */
+    function initBackToTop() {
+        const backToTopBtn = document.getElementById('backToTop');
+        if (!backToTopBtn) return;
+
+        // 监听滚动事件
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        // 点击回到顶部
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    /**
+     * 初始化主题切换
+     */
+    function initThemeToggle() {
+        const themeBtn = document.getElementById('themeToggle');
+        if (!themeBtn) return;
+
+        // 从 localStorage 读取主题设置
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+
+        // 点击切换主题
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        });
+    }
+
+    /**
+     * 更新主题按钮图标
+     */
+    function updateThemeButton(theme) {
+        const themeBtn = document.getElementById('themeToggle');
+        if (themeBtn) {
+            themeBtn.textContent = theme === 'dark' ? '🌙' : '☀️';
+        }
     }
 
     /**
