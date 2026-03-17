@@ -632,3 +632,12 @@ footer a:hover {
 .news-card:nth-child(4) { animation-delay: 0.25s; }
 .news-card:nth-child(5) { animation-delay: 0.3s; }
 .news-card:nth-child(6) { animation-delay: 0.35s; }
+
+/* Search Highlight */
+.news-card mark {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 0 2px;
+    border-radius: 2px;
+    font-weight: 600;
+}

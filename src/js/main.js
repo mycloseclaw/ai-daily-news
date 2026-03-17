@@ -39,6 +39,9 @@
         // 初始化快捷键
         initKeyboardShortcuts();
 
+        // 初始化搜索功能
+        initSearch();
+
         console.log('✅ 初始化完成');
     }
 
@@ -63,6 +66,34 @@
             : allNews;
         
         renderNews(filtered);
+    }
+
+    /**
+     * 搜索新闻
+     */
+    function searchNews(keyword) {
+        if (!keyword) {
+            renderNews(allNews);
+            return;
+        }
+
+        const lowerKeyword = keyword.toLowerCase();
+        const filtered = allNews.filter(news => 
+            news.title.toLowerCase().includes(lowerKeyword) ||
+            (news.summary && news.summary.toLowerCase().includes(lowerKeyword)) ||
+            news.source.toLowerCase().includes(lowerKeyword)
+        );
+        
+        renderNews(filtered, keyword);
+    }
+
+    /**
+     * 高亮搜索关键词
+     */
+    function highlightKeyword(text, keyword) {
+        if (!keyword || !text) return text;
+        const regex = new RegExp(`(${keyword})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
     }
 
     /**
@@ -116,8 +147,10 @@
 
     /**
      * 渲染新闻卡片
+     * @param {Array} newsList - 新闻列表
+     * @param {string} keyword - 搜索关键词（用于高亮）
      */
-    function renderNews(newsList) {
+    function renderNews(newsList, keyword = '') {
         const container = document.getElementById('newsContainer');
         const newsCount = document.getElementById('newsCount');
         
@@ -137,12 +170,12 @@
             <article class="news-card">
                 <div class="news-source">
                     <span class="source-icon">${getSourceIcon(news.source)}</span>
-                    ${news.source}
+                    ${keyword ? highlightKeyword(news.source, keyword) : news.source}
                 </div>
                 <h2 class="news-title">
-                    <a href="${news.url}" target="_blank" rel="noopener">${news.title}</a>
+                    <a href="${news.url}" target="_blank" rel="noopener">${keyword ? highlightKeyword(news.title, keyword) : news.title}</a>
                 </h2>
-                <p class="news-summary">${news.summary || ''}</p>
+                <p class="news-summary">${keyword ? highlightKeyword(news.summary || '', keyword) : (news.summary || '')}</p>
                 <div class="news-meta">
                     <div class="news-date">📅 ${formatDate(news.date)}</div>
                     <button class="news-favorite ${favorites.includes(news.id) ? 'active' : ''}" 
