@@ -5,58 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Daily News - 每日 AI 资讯</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
 </head>
 <body>
+    <!-- 头部 -->
     <header>
-        <div class="container">
-            <h1>🤖 AI Daily News</h1>
-            <p class="subtitle">每日 AI 资讯聚合</p>
-            <div class="auth-buttons">
-                <button id="loginBtn" class="auth-btn">登录</button>
-                <button id="registerBtn" class="auth-btn auth-btn-primary">注册</button>
-                <span id="userInfo" class="user-info" style="display: none;">
-                    <span id="username"></span>
-                    <button id="logoutBtn" class="auth-btn">退出</button>
-                </span>
+        <div class="header-content">
+            <div class="logo">🤖 AI Daily News</div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索新闻...">
             </div>
-            <div class="date-selector">
-                <label for="datePicker">📅 选择日期：</label>
-                <input type="date" id="datePicker" max="">
-                <button id="prevBtn" class="nav-btn">‹ 上一天</button>
-                <button id="todayBtn" class="today-btn">今天</button>
-                <button id="nextBtn" class="nav-btn">下一天 ›</button>
-                <button id="allBtn" class="all-btn">查看全部</button>
+            <div class="header-controls">
+                <button id="themeToggle" class="theme-btn" title="切换主题">🌙</button>
+                <input type="date" id="datePicker" title="选择日期">
+                <button id="loginBtn" onclick="openModal('loginModal')">登录</button>
+                <button id="registerBtn" onclick="openModal('registerModal')">注册</button>
+                <div id="userInfo" style="display: none;">
+                    <span id="usernameDisplay"></span>
+                    <button id="logoutBtn">退出</button>
+                </div>
             </div>
-            <p class="last-update">最后更新: <span id="lastUpdate">加载中...</span></p>
         </div>
     </header>
 
-    <main class="container">
-        <div id="newsGrid" class="news-grid">
-            <!-- 新闻卡片将通过 JavaScript 动态加载 -->
-            <div class="loading">正在加载资讯...</div>
-        </div>
-        
-        <!-- 留言板 -->
-        <section class="comment-board">
-            <h2>💬 留言板</h2>
-            <div id="commentForm" class="comment-form" style="display: none;">
-                <textarea id="commentInput" placeholder="写下你的评论... (支持 Markdown)" rows="4"></textarea>
-                <button id="submitComment" class="submit-btn">发布评论</button>
+    <!-- 主内容区 -->
+    <main>
+        <!-- 筛选栏 -->
+        <div class="filter-bar">
+            <div class="source-filter">
+                <label>来源筛选：</label>
+                <select id="sourceFilter">
+                    <option value="">全部来源</option>
+                    <option value="HuggingFace">HuggingFace</option>
+                    <option value="OpenAI">OpenAI</option>
+                    <option value="Google AI">Google AI</option>
+                    <option value="Meta AI">Meta AI</option>
+                    <option value="Anthropic">Anthropic</option>
+                    <option value="Microsoft">Microsoft</option>
+                    <option value="Stability AI">Stability AI</option>
+                </select>
             </div>
-            <p id="loginPrompt" class="login-prompt">登录后即可发表评论</p>
-            <div id="commentList" class="comment-list"></div>
+            <div class="stats">
+                <span id="newsCount">共 0 条新闻</span>
+            </div>
+        </div>
+
+        <div id="newsContainer">
+            <div class="loading">加载中...</div>
+        </div>
+
+        <!-- 留言板 -->
+        <section class="message-board">
+            <h2>留言板</h2>
+            <form id="messageForm">
+                <textarea id="messageText" placeholder="写下你的评论..." required></textarea>
+                <button type="submit">发布留言</button>
+            </form>
+            <div id="messageList"></div>
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>由 <a href="https://github.com/mycloseclaw" target="_blank">灰原</a> 自动维护 | 
-            <a href="https://github.com/mycloseclaw/ai-daily-news" target="_blank">GitHub</a></p>
+    <!-- 登录模态框 -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>登录</h2>
+            <form id="loginForm">
+                <input type="text" id="loginUsername" placeholder="用户名" required>
+                <input type="password" id="loginPassword" placeholder="密码" required>
+                <button type="submit">登录</button>
+            </form>
+            <p>还没有账号？<a href="#" onclick="switchToRegister()">立即注册</a></p>
         </div>
+    </div>
+
+    <!-- 注册模态框 -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>注册</h2>
+            <form id="registerForm">
+                <input type="text" id="registerUsername" placeholder="用户名（至少3个字符）" required>
+                <input type="password" id="registerPassword" placeholder="密码（至少6个字符）" required>
+                <input type="password" id="registerConfirmPassword" placeholder="确认密码" required>
+                <button type="submit">注册</button>
+            </form>
+            <p>已有账号？<a href="#" onclick="switchToLogin()">立即登录</a></p>
+        </div>
+    </div>
+
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="back-to-top" title="回到顶部">↑</button>
+
+    <!-- 快捷键提示 -->
+    <div class="shortcuts-hint">
+        <kbd>/</kbd> 搜索 &nbsp; <kbd>Esc</kbd> 关闭 &nbsp; <kbd>T</kbd> 主题
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>&copy; 2026 AI Daily News. All rights reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- 合并后的脚本（用于本地测试） -->
+    <script src="bundle.js"></script>
 </body>
 </html>

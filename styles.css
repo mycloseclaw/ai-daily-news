@@ -243,6 +243,60 @@ main {
     font-size: 1.1rem;
 }
 
+/* Filter Bar */
+.filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+}
+
+.source-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.source-filter label {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.source-filter select {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.source-filter select:hover,
+.source-filter select:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.stats {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.stats #newsCount {
+    background: var(--bg-card);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
 /* News Card */
 .news-card {
     background: var(--bg-card);
@@ -306,6 +360,58 @@ main {
     color: var(--text-secondary);
 }
 
+/* Favorite Button */
+.news-favorite {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: transform 0.2s;
+    color: var(--text-secondary);
+}
+
+.news-favorite:hover {
+    transform: scale(1.2);
+}
+
+.news-favorite.active {
+    color: #ff6b6b;
+}
+
+.news-favorite.active::after {
+    content: ' ❤️';
+}
+
+/* Keyboard Shortcuts */
+.shortcuts-hint {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: var(--bg-secondary);
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    z-index: 999;
+}
+
+.shortcuts-hint:hover {
+    opacity: 1;
+}
+
+.shortcuts-hint kbd {
+    background: var(--bg-card);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    font-family: monospace;
+    margin: 0 2px;
+}
+
 .news-date {
     display: flex;
     align-items: center;
@@ -352,6 +458,61 @@ footer a:hover {
     .news-grid {
         grid-template-columns: 1fr;
     }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .header-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* Theme Toggle Button */
+.theme-btn {
+    padding: 8px 12px;
+    font-size: 1.2rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.theme-btn:hover {
+    border-color: var(--accent);
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px var(--shadow);
+    z-index: 1000;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    transform: translateY(-4px);
+    background: var(--accent-hover);
 }
 
 /* Animations */
